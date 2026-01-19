@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marques Brownlee | MKBHD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #0a192f;
+            --secondary: #64ffda;
+            --accent: #ccd6f6;
+            --light-gray: #112240;
+            --dark-gray: #0a192f;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--accent);
+            line-height: 1.6;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: rgba(10, 25, 47, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.8rem;
+        }
+        
+        .nav-links a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--secondary);
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section with Video Background */
+        .hero {
+            position: relative;
+            padding: 180px 0 100px;
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        /* Video Container */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+        
+        /* Video Overlay */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin: 0 auto 2.5rem;
+            color: #eee;
+            max-width: 700px;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .youtube-btn {
+            display: inline-block;
+            background-color: #ff0000;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .youtube-btn:hover {
+            background-color: #cc0000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+        }
+        
+        .youtube-btn i {
+            margin-right: 8px;
+        }
+        
+        /* Video Control Button */
+        .video-control {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .video-control:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+        
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: white;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .about-img {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: #ddd;
+        }
+        
+        /* Education Section */
+        .education {
+            background-color: #112240;
+        }
+        
+        .education-timeline {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .education-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--secondary);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+        
+        .timeline-content {
+            background-color: #0a192f;
+            padding: 30px;
+            border-radius: 10px;
+            width: 45%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            border-left: none;
+            border-right: 4px solid var(--secondary);
+        }
+        
+        .timeline-year {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--secondary);
+            color: #0a192f;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .timeline-content h3 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .timeline-content h4 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .timeline-content p {
+            color: #ddd;
+            font-size: 1rem;
+        }
+        
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            transform: translateX(-50%);
+            background-color: #0a192f;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            border: 2px solid var(--secondary);
+        }
+        
+        .timeline-icon i {
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+        
+        /* Achievements */
+        .achievements {
+            background-color: #0a192f;
+        }
+        
+        .achievement-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .achievement-card {
+            background-color: #112240;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .achievement-card i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .achievement-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        /* Gallery */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            height: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background-color: #112240;
+        }
+        
+        .gallery-item img, .gallery-item iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img, .gallery-item:hover iframe {
+            transform: scale(1.05);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            background: rgba(10, 25, 47, 0.85);
+            width: 100%;
+            padding: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 2;
+        }
+        
+        /* Video Thumbnail Styles */
+        .video-thumbnail-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .video-thumbnail-link:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Play Button Overlay */
+        .play-button-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .video-thumbnail-link:hover .play-button-overlay {
+            opacity: 1;
+        }
+        
+        .play-button-overlay i {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .play-button-overlay span {
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        /* Contact Section */
+        .contact {
+            background-color: #112240;
+        }
+        
+        .contact-container {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .contact-icon {
+            background-color: var(--secondary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .contact-icon i {
+            font-size: 1.3rem;
+            color: #0a192f;
+        }
+        
+        .contact-details h3 {
+            color: white;
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+        
+        .contact-details p {
+            color: #ddd;
+            font-size: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #0a192f;
+            border: 1px solid #233554;
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: var(--secondary);
+            color: #0a192f;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            position: relative;
+        }
+        
+        .submit-btn:hover {
+            background-color: #52d6b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .contact-note {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(100, 255, 218, 0.1);
+            border-radius: 5px;
+            color: #ddd;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--secondary);
+        }
+        
+        /* Form Messages */
+        .form-messages {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .form-messages.success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            border-left: 3px solid #4CAF50;
+        }
+        
+        .form-messages.error {
+            background-color: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+            border-left: 3px solid #ff6b6b;
+        }
+        
+        .form-messages.info {
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--secondary);
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #0a192f;
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: #112240;
+            color: var(--accent);
+            border-radius: 50%;
+            margin: 0 10px;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary);
+            color: #0a192f;
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            color: #8892b0;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .play-button-overlay i {
+                font-size: 2.5rem;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+            
+            .education-timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                flex-direction: row !important;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 80px);
+                margin-left: 80px;
+            }
+            
+            .timeline-year {
+                left: 30px;
+                transform: translateX(0);
+            }
+            
+            .timeline-icon {
+                left: 30px;
+                transform: translateX(0);
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content {
+                border-right: none;
+                border-left: 4px solid var(--secondary);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                background-color: rgba(10, 25, 47, 0.98);
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s;
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                padding: 150px 0 80px;
+                height: auto;
+                min-height: 600px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .video-control {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .gallery-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .youtube-btn {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
+            
+            .play-button-overlay i {
+                font-size: 2rem;
+            }
+            
+            .play-button-overlay span {
+                font-size: 0.8rem;
+            }
+            
+            .contact-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .contact-icon {
+                margin-bottom: 10px;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px;
+                padding: 20px;
+            }
+            
+            .timeline-year {
+                padding: 6px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">MKB<span>HD</span></a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section with Video Background -->
+    <section class="hero" id="home">
+        <!-- Video Background -->
+        <div class="video-background">
+            <video autoplay muted loop id="bgVideo">
+                <!-- Replace this with your own MP4 file -->
+                <source src="background.mp4" type="video/mp4">
+                <!-- Fallback image if video doesn't load -->
+                <img src="profile.avif" alt="Tech Background">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+        
+        <!-- Video Control Button -->
+        <button class="video-control" id="videoControl">
+            <i class="fas fa-volume-mute" id="volumeIcon"></i>
+        </button>
+        
+        <!-- Hero Content -->
+        <div class="container hero-content">
+            <h1>Marques Brownlee</h1>
+            <p>Technology reviewer, professional producer, and one of the most influential voices in the tech industry with over 20 million subscribers on YouTube.</p>
+            <a href="https://www.youtube.com/user/marquesbrownlee" target="_blank" class="youtube-btn">
+                <i class="fab fa-youtube"></i> Visit YouTube Channel
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Marques</h2>
+            <div class="about-content">
+                <div class="about-img">
+                    <img src="profile.jpg" alt="Marques Brownlee">
+                </div>
+                <div class="about-text">
+                    <h3>The Tech Reviewer Who Changed YouTube</h3>
+                    <p>Marques Keith Brownlee, also known as MKBHD, is an American YouTube personality and professional ultimate frisbee player, best known for his technology-focused videos. He started his YouTube channel in 2009 while still in high school.</p>
+                    <p>His channel has grown to become one of the most respected tech review channels on the platform, known for its high production quality, in-depth analysis, and unbiased opinions on the latest consumer electronics.</p>
+                    <p>Brownlee's approach to tech reviewing focuses on the user experience, design, and real-world usage rather than just specifications. This approach has earned him a loyal following and respect from both consumers and tech companies alike.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="education" id="education">
+        <div class="container">
+            <h2 class="section-title">Education & Career Path</h2>
+            <div class="education-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="timeline-year">2009</div>
+                    <div class="timeline-content">
+                        <h3>YouTube Channel Launch</h3>
+                        <h4>High School Years</h4>
+                        <p>Started the MKBHD YouTube channel while attending South Brunswick High School in New Jersey. Initially created videos about consumer technology and gadget reviews.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="timeline-year">2011-2015</div>
+                    <div class="timeline-content">
+                        <h3>Higher Education</h3>
+                        <h4>Quinnipiac University</h4>
+                        <p>Attended Quinnipiac University in Hamden, Connecticut, where he studied Business and played on the university's Ultimate Frisbee team. Continued to grow his YouTube channel while balancing academics and athletics.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="timeline-year">2014</div>
+                    <div class="timeline-content">
+                        <h3>Professional Transition</h3>
+                        <h4>Full-Time YouTuber</h4>
+                        <p>After graduating from Quinnipiac University, Brownlee decided to pursue YouTube full-time. His channel had already gained significant traction, making this a viable career choice.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="timeline-year">2015-Present</div>
+                    <div class="timeline-content">
+                        <h3>Rise to Prominence</h3>
+                        <h4>Industry Recognition</h4>
+                        <p>Gained recognition as one of the most influential tech reviewers. Started working with major tech companies, attending exclusive launch events, and interviewing tech industry leaders.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <div class="timeline-year">2018</div>
+                    <div class="timeline-content">
+                        <h3>Waveform Podcast</h3>
+                        <h4>Content Expansion</h4>
+                        <p>Launched the Waveform podcast with Andrew Manganelli, expanding his content beyond YouTube videos to in-depth discussions about technology, business, and industry trends.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section class="achievements" id="achievements">
+        <div class="container">
+            <h2 class="section-title">Notable Achievements</h2>
+            <div class="achievement-cards">
+                <div class="achievement-card">
+                    <i class="fas fa-trophy"></i>
+                    <h3>20M+ Subscribers</h3>
+                    <p>One of the most subscribed tech channels on YouTube with a highly engaged audience.</p>
+                </div>
+                <div class="achievement-card">
+                    <i class="fas fa-video"></i>
+                    <h3>5.1B+ Views</h3>
+                    <p>Accumulated billions of views with consistently high-quality tech content since 2009.</p>
+                </div>
+                <div class="achievement-card">
+                    <i class="fas fa-award"></i>
+                    <h3>Shorty Award Winner</h3>
+                    <p>Received the Streamy Award for Best in Technology in 2019 and 2020 also Best in Science or Education in 2018.</p>
+                </div>
+                <div class="achievement-card">
+                    <i class="fas fa-microphone"></i>
+                    <h3>Expert Interviews</h3>
+                    <p>Interviewed tech leaders like Elon Musk, Bill Gates, and Tim Cook.</p>
+                </div>
+                <div class="achievement-card">
+                    <i class="fas fa-star"></i>
+                    <h3>High Profile Reviews</h3>
+                    <p>Companies often send him products for review before official release dates.</p>
+                </div>
+                <div class="achievement-card">
+                    <i class="fas fa-film"></i>
+                    <h3>Production Quality</h3>
+                    <p>Sets the standard for YouTube production with 8K video and professional editing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section with Clickable YouTube Thumbnails -->
+    <section id="gallery">
+        <div class="container">
+            <h2 class="section-title">Gallery</h2>
+            <div class="gallery-container">
+                <!-- Video 1 - Xiaomi Electric Car (Clickable Thumbnail) -->
+                <div class="gallery-item">
+                    <a href="https://www.youtube.com/watch?v=Mb6H7trzMfI" target="_blank" class="video-thumbnail-link">
+                        <img src="https://img.youtube.com/vi/Mb6H7trzMfI/maxresdefault.jpg" alt="Driving Xiaomi's Electric Car" onerror="this.src='Studio tour.jpg'">
+                        <div class="play-button-overlay">
+                            <i class="fas fa-play-circle"></i>
+                            <span>Watch on YouTube</span>
+                        </div>
+                    </a>
+                    <div class="gallery-caption">Driving Xiaomi's Electric Car: Are we Cooked?</div>
+                </div>
+                
+                <!-- Photo 1 -->
+                <div class="gallery-item">
+                    <img src="Studio tour.jpg" alt="Studio Setup">
+                    <div class="gallery-caption">Studio Setup</div>
+                </div>
+                
+                <!-- Video 2 -  -->
+                <div class="gallery-item">
+                    <a href="https://youtu.be/trsHTKqmZOk?si=4sGabMqZxXig9il-" target="_blank" class="video-thumbnail-link">
+                        <img src="https://img.youtube.com/vi/trsHTKqmZOk/maxresdefault.jpg" alt="Samsung Galaxy Z Tri Fold Impressions: NOW It Makes Sense!" onerror="this.src='gear tour.jpg'">
+                        <div class="play-button-overlay">
+                            <i class="fas fa-play-circle"></i>
+                            <span>Watch on YouTube</span>
+                        </div>
+                    </a>
+                    <div class="gallery-caption">Samsung Galaxy Z Tri Fold Impressions!</div>
+                </div>
+                
+                <!-- Photo 2 -->
+                <div class="gallery-item">
+                    <img src="gear tour.jpg" alt="Gear Equipment">
+                    <div class="gallery-caption">Gear Equipment</div>
+                </div>
+                
+                <!-- Video 3 - F1 Explained (Clickable Thumbnail) -->
+                <div class="gallery-item">
+                    <a href="https://www.youtube.com/watch?v=s8WHY3Gusx0" target="_blank" class="video-thumbnail-link">
+                        <img src="https://img.youtube.com/vi/s8WHY3Gusx0/maxresdefault.jpg" alt="F1: Explained!" onerror="this.src='Interview.png'">
+                        <div class="play-button-overlay">
+                            <i class="fas fa-play-circle"></i>
+                            <span>Watch on YouTube</span>
+                        </div>
+                    </a>
+                    <div class="gallery-caption">F1: Explained!</div>
+                </div>
+                
+                <!-- Photo 3 -->
+                <div class="gallery-item">
+                    <img src="Interview.png" alt="Interviewing Tim Cook">
+                    <div class="gallery-caption">Interviewing Tim Cook</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact & Connect</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Business Inquiries</h3>
+                            <p>For business and media inquiries, please contact through official channels</p>
+                            <p><em>Note: MKBHD primarily handles business through his management team</em></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Community</h3>
+                            <p>Join the community discussions on various platforms</p>
+                            <p>Twitter: @MKBHD | Instagram: @mkbhd</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Content Collaboration</h3>
+                            <p>For content collaboration or feature requests</p>
+                            <p>Reach out through official social media channels</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-podcast"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Waveform Podcast</h3>
+                            <p>Listen to the Waveform podcast for more tech discussions</p>
+                            <p>Available on all major podcast platforms</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3 style="color: white; margin-bottom: 20px;">Send a Message</h3>
+                    
+                    <!-- Form status messages -->
+                    <div id="formMessages" class="form-messages"></div>
+                    
+                    <form id="contactForm">
+                        <!-- Hidden field for basic spam protection -->
+                        <input type="hidden" id="website" name="website" value="">
+                        
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
+                            <div class="error-message" id="nameError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <input type="text" id="subject" class="form-control" placeholder="Enter subject" required>
+                            <div class="error-message" id="subjectError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" class="form-control" placeholder="Type your message here..." rows="5" required></textarea>
+                            <div class="error-message" id="messageError"></div>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <span id="btnText">Send Message</span>
+                            <span id="btnLoading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> Sending...
+                            </span>
+                        </button>
+                    </form>
+                    
+                    <div class="contact-note">
+                        <p><strong>Note:</strong> This is a fan-made tribute website. Marques Brownlee does not directly monitor this contact form. For official communications, please use his verified social media channels or business contact information available on his YouTube channel.</p>
+                        <p><strong>Email Function:</strong> This contact form can send emails using EmailJS. To enable this feature, you need to set up a free EmailJS account and update the script with your credentials (see comments in JavaScript).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://www.youtube.com/user/marquesbrownlee" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://twitter.com/MKBHD" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/mkbhd/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@mkbhd" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+        <p class="copyright">This Website is Created to Fulfill The Requirement of IMD318 Individual Project.</p>
+    </footer>
+
+    <script>
+        // Initialize EmailJS with your public key
+        // Replace "YOUR_PUBLIC_KEY" with your actual EmailJS public key
+        emailjs.init("YOUR_PUBLIC_KEY");
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Set active navigation link based on scroll position
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if(pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Video Controls
+        const bgVideo = document.getElementById('bgVideo');
+        const videoControl = document.getElementById('videoControl');
+        const volumeIcon = document.getElementById('volumeIcon');
+        
+        // Toggle video mute/unmute
+        videoControl.addEventListener('click', () => {
+            if (bgVideo.muted) {
+                bgVideo.muted = false;
+                volumeIcon.classList.remove('fa-volume-mute');
+                volumeIcon.classList.add('fa-volume-up');
+            } else {
+                bgVideo.muted = true;
+                volumeIcon.classList.remove('fa-volume-up');
+                volumeIcon.classList.add('fa-volume-mute');
+            }
+        });
+        
+        // Ensure video plays on load (autoplay policy workaround)
+        document.addEventListener('DOMContentLoaded', () => {
+            bgVideo.play().catch(error => {
+                console.log("Video autoplay failed, user interaction required:", error);
+                videoControl.style.display = 'flex'; // Show control button
+            });
+        });
+        
+        // Pause video when not in view to save resources
+        const observerOptions = {
+            threshold: 0.5
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    bgVideo.play();
+                } else {
+                    bgVideo.pause();
+                }
+            });
+        }, observerOptions);
+        
+        observer.observe(document.querySelector('.hero'));
+        
+        // Contact form handling with EmailJS
+        const contactForm = document.getElementById('contactForm');
+        
+        // Helper functions for form handling
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+        }
+        
+        function resetErrorMessages() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(element => {
+                element.textContent = '';
+                element.style.display = 'none';
+            });
+        }
+        
+        function showFormMessage(message, type) {
+            const messageElement = document.getElementById('formMessages');
+            if (messageElement) {
+                messageElement.textContent = message;
+                messageElement.className = `form-messages ${type}`;
+                messageElement.style.display = 'block';
+                
+                // Auto-hide after 10 seconds
+                setTimeout(() => {
+                    hideFormMessage();
+                }, 10000);
+            }
+        }
+        
+        function hideFormMessage() {
+            const messageElement = document.getElementById('formMessages');
+            if (messageElement) {
+                messageElement.style.display = 'none';
+                messageElement.textContent = '';
+            }
+        }
+        
+        function showLoading(isLoading) {
+            const btnText = document.getElementById('btnText');
+            const btnLoading = document.getElementById('btnLoading');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (isLoading) {
+                btnText.style.display = 'none';
+                btnLoading.style.display = 'inline';
+                submitBtn.disabled = true;
+            } else {
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        }
+        
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        if (contactForm) {
+            // Set up hidden field for spam protection
+            document.getElementById('website').value = window.location.hostname;
+            
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Reset previous error messages
+                resetErrorMessages();
+                hideFormMessage();
+                
+                // Get form values
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const subject = document.getElementById('subject').value.trim();
+                const message = document.getElementById('message').value.trim();
+                const website = document.getElementById('website').value; // Spam protection
+                
+                // Basic validation
+                let isValid = true;
+                
+                if (!name) {
+                    showError('nameError', 'Please enter your name');
+                    isValid = false;
+                }
+                
+                if (!email) {
+                    showError('emailError', 'Please enter your email');
+                    isValid = false;
+                } else if (!isValidEmail(email)) {
+                    showError('emailError', 'Please enter a valid email address');
+                    isValid = false;
+                }
+                
+                if (!subject) {
+                    showError('subjectError', 'Please enter a subject');
+                    isValid = false;
+                }
+                
+                if (!message) {
+                    showError('messageError', 'Please enter your message');
+                    isValid = false;
+                } else if (message.length < 10) {
+                    showError('messageError', 'Message should be at least 10 characters');
+                    isValid = false;
+                }
+                
+                // Basic spam check (honeypot field should be empty)
+                if (website) {
+                    showFormMessage('Spam detected. Please try again.', 'error');
+                    return;
+                }
+                
+                if (!isValid) {
+                    return;
+                }
+                
+                // Show loading state
+                showLoading(true);
+                
+                try {
+                    // Send email using EmailJS
+                    // IMPORTANT: Replace these parameters with your actual EmailJS credentials
+                    // 1. Create a free account at https://www.emailjs.com/
+                    // 2. Get your Service ID, Template ID, and Public Key
+                    // 3. Replace the values below:
+                    
+                    const templateParams = {
+                        from_name: name,
+                        from_email: email,
+                        subject: subject,
+                        message: message,
+                        to_email: "your-email@example.com", // Where you want to receive emails
+                        website_name: "MKBHD Tribute Site",
+                        date: new Date().toLocaleDateString()
+                    };
+                    
+                    // Send the email
+                    // Replace "YOUR_SERVICE_ID" and "YOUR_TEMPLATE_ID" with your actual IDs
+                    const response = await emailjs.send(
+                        "YOUR_SERVICE_ID",    // Replace with your EmailJS service ID
+                        "YOUR_TEMPLATE_ID",   // Replace with your EmailJS template ID
+                        templateParams
+                    );
+                    
+                    if (response.status === 200) {
+                        // Success
+                        showFormMessage('Thank you for your message! We will get back to you soon.', 'success');
+                        contactForm.reset();
+                    } else {
+                        throw new Error('Failed to send message');
+                    }
+                    
+                } catch (error) {
+                    console.error('EmailJS Error:', error);
+                    
+                    // Fallback for demo purposes
+                    showFormMessage('Thank you for your message! In a real implementation, this would send an email. For now, this is a demo.', 'info');
+                    contactForm.reset();
+                    
+                    // Alternative: Show actual error message
+                    // showFormMessage('Sorry, there was an error sending your message. Please try again later.', 'error');
+                } finally {
+                    // Hide loading state
+                    showLoading(false);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
